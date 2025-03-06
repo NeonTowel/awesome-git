@@ -38,6 +38,45 @@ To install `awesome-git` on Windows using Scoop, follow these steps:
 
 Now you're ready to use `awesome-git` on Windows! 🎉
 
+
+### Linux & macOS
+
+To install `awesome-git` on Linux or macOS, follow these steps:
+
+1. Download the appropriate zip package for your operating system from the [releases page](https://github.com/NeonTowel/awesome-git/releases). For Linux, download `awesome-git-linux.zip`, and for macOS, download `awesome-git-darwin.zip`.
+
+2. Extract the downloaded zip file to a directory of your choice. For example:
+
+   ```bash
+   unzip awesome-git-linux.zip -d /your/desired/directory
+   ```
+   
+   or for macOS:
+   
+   ```bash
+   unzip awesome-git-darwin.zip -d /your/desired/directory
+   ```
+
+3. Add the extracted directory to your PATH to make the `awesome-git` commands available globally. You can do this by adding the following line to your `~/.bashrc` or `~/.zshrc` file:
+
+   ```bash
+   export PATH="/your/desired/directory:$PATH"
+   ```
+
+4. Reload your shell configuration:
+
+   ```bash
+   source ~/.bashrc
+   ```
+   
+   or for zsh:
+   
+   ```bash
+   source ~/.zshrc
+   ```
+
+Now you're ready to use `awesome-git` on Linux or macOS! 🎉
+
 ## Getting Started
 
 1. Clone this repo (you know the drill)
