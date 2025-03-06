@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - '**/*.go'
-      - '.github/workflows/release.yml'
+      - '.github/workflows/release.yaml'
   workflow_dispatch:
 
 permissions:
@@ -62,10 +62,10 @@ jobs:
         prerelease: false
         files: |
           release/linux/awesome-git-linux.zip
-          release/linux/awesome-git.sha256
+          release/linux/awesome-git-linux.zip.sha256
           release/darwin/awesome-git-darwin.zip
-          release/darwin/awesome-git.sha256
+          release/darwin/awesome-git-darwin.zip.sha256
           release/windows/awesome-git-windows.zip
-          release/windows/awesome-git.exe.sha256
+          release/windows/awesome-git-windows.zip.sha256
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
