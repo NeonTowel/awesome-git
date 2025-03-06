@@ -18,6 +18,26 @@ Welcome to the coolest Git configuration manager this side of the Milky Way! �
 - 🏢 Multi-org repo support (like a boss)
 - ⚙️ Smart Git configuration (because ain't nobody got time for manual setups)
 
+## Installation Guide
+
+### Windows (using Scoop)
+
+To install `awesome-git` on Windows using Scoop, follow these steps:
+
+1. Add the `neontowel` bucket to Scoop:
+
+   ```sh
+   scoop bucket add neontowel https://github.com/NeonTowel/scoop-bucket
+   ```
+
+2. Install `awesome-git` from the `neontowel` bucket:
+
+   ```sh
+   scoop install neontowel/awesome-git
+   ```
+
+Now you're ready to use `awesome-git` on Windows! 🎉
+
 ## Getting Started
 
 1. Clone this repo (you know the drill)
