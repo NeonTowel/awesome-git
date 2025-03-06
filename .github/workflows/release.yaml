@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.go'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+ release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.23'
+
+    - name: Install go-task
+      run: |
+        sudo sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+
+    - name: Build release binaries
+      run: |
+        task release
+
+    - name: Compress release binaries
+      run: |
+        zip -j release/linux/awesome-git-linux.zip release/linux/awesome-git
+        zip -j release/darwin/awesome-git-darwin.zip release/darwin/awesome-git
+        zip -j release/windows/awesome-git-windows.zip release/windows/awesome-git.exe
+
+    - name: Generate SHA256 checksums for release packages
+      run: |
+        sha256sum release/linux/awesome-git-linux.zip > release/linux/awesome-git-linux.zip.sha256
+        sha256sum release/darwin/awesome-git-darwin.zip > release/darwin/awesome-git-darwin.zip.sha256
+        sha256sum release/windows/awesome-git-windows.zip > release/windows/awesome-git-windows.zip.sha256
+
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@v1
+      id: bump_version
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: false
+        DEFAULT_BUMP: patch
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.bump_version.outputs.new_tag }}
+        name: Release v${{ steps.bump_version.outputs.new_tag }}
+        draft: false
+        prerelease: false
+        files: |
+          release/linux/awesome-git-linux.zip
+          release/linux/awesome-git.sha256
+          release/darwin/awesome-git-darwin.zip
+          release/darwin/awesome-git.sha256
+          release/windows/awesome-git-windows.zip
+          release/windows/awesome-git.exe.sha256
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

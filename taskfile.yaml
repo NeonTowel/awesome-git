@@ -51,3 +51,25 @@ tasks:
   run:
     desc: Run the awesome-git binary for the current platform
     deps: [run:linux, run:mac, run:windows] # executes only the task which applies to current platform
+
+  release:linux:
+    desc: Build and prepare the Linux release
+    cmds:
+      - GOOS=linux GOARCH=amd64 go build -o release/linux/awesome-git
+      - sha256sum release/linux/awesome-git > release/linux/awesome-git.sha256
+
+  release:mac:
+    desc: Build and prepare the macOS release
+    cmds:
+      - GOOS=darwin GOARCH=amd64 go build -o release/darwin/awesome-git
+      - sha256sum release/darwin/awesome-git > release/darwin/awesome-git.sha256
+
+  release:windows:
+    desc: Build and prepare the Windows release
+    cmds:
+      - GOOS=windows GOARCH=amd64 go build -o release/windows/awesome-git.exe
+      - sha256sum release/windows/awesome-git.exe > release/windows/awesome-git.exe.sha256
+
+  release:
+    desc: Build and prepare the release for all platforms
+    deps: [release:linux, release:mac, release:windows]
