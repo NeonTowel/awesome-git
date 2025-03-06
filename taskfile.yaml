@@ -1,0 +1,53 @@
+# Taskfile.yml
+version: '3'
+
+tasks:
+  default:
+    - task --list
+
+  # Build the awesome-git binary for the current platform
+  build:linux:
+    desc: Build the awesome-git binary for Linux
+    cmds:
+      - GOOS=linux GOARCH=amd64 go build -o build/linux/awesome-git
+    platforms: ['linux']
+
+  build:mac:
+    desc: Build the awesome-git binary for macOS
+    cmds:
+      - GOOS=darwin GOARCH=amd64 go build -o build/darwin/awesome-git
+    platforms: ['darwin']
+
+  build:windows:
+    desc: Build the awesome-git binary for Windows
+    cmds:
+      - GOOS=windows GOARCH=amd64 go build -o build/windows/awesome-git.exe
+    platforms: ['windows']
+
+  build:
+    desc: Build the awesome-git binary for the current platform
+    deps: [build:linux, build:mac, build:windows] # executes only the task which applies to current platform
+
+
+  # Run the built binary for the current platform
+  run:linux:
+    desc: Run the awesome-git binary for Linux
+    cmds:
+      - ./build/linux/awesome-git {{.CLI_ARGS}}
+    platforms: ['linux']
+
+  run:mac:
+    desc: Run the awesome-git binary for macOS
+    cmds:
+      - ./build/darwin/awesome-git {{.CLI_ARGS}}
+    platforms: ['darwin']
+
+  run:windows:
+    desc: Run the awesome-git binary for Windows
+    cmds:
+      - ./build/windows/awesome-git.exe {{.CLI_ARGS}}
+    platforms: ['windows']
+
+  run:
+    desc: Run the awesome-git binary for the current platform
+    deps: [run:linux, run:mac, run:windows] # executes only the task which applies to current platform
